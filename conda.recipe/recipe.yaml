@@ -3,11 +3,11 @@ package:
   version: "0.1.0"
 
 source:
-  path: .
+  path: ..
 
 build:
   noarch: python
-  script: pip install --no-deps --no-build-isolation -e .
+  script: pip install --no-deps --no-build-isolation .
 
 requirements:
   host:
