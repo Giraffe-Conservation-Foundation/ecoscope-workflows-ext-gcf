@@ -28,9 +28,8 @@ jobs:
             --channel conda-forge
 
       - name: Upload to prefix.dev
-        env:
-          PREFIX_DEV_TOKEN: ${{ secrets.PREFIX_DEV_TOKEN }}
         run: |
           rattler-build upload prefix \
             --channel ecoscope-workflows-gcf \
+            --api-key ${{ secrets.PREFIX_DEV_TOKEN }} \
             dist/noarch/*.conda
