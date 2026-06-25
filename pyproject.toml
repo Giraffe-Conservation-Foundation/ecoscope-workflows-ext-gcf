@@ -1,0 +1,21 @@
+[project]
+name = "ecoscope-workflows-ext-gcf"
+version = "0.1.0"
+description = "GCF-specific custom tasks for Ecoscope Desktop workflows."
+requires-python = ">=3.10"
+dependencies = [
+    "wt-registry",
+    "geopandas",
+    "pandas",
+    "pydantic",
+]
+
+[project.entry-points."wt_registry"]
+ecoscope_workflows_ext_gcf = "ecoscope_workflows_ext_gcf"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ecoscope_workflows_ext_gcf"]
