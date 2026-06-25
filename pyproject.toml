@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "GCF-specific custom tasks for Ecoscope Desktop workflows."
 requires-python = ">=3.10"
 dependencies = [
-    "wt-registry",
+    "wt-registry>=0.2.0,<0.3.0",
     "geopandas",
     "pandas",
     "pydantic",

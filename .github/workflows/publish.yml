@@ -1,0 +1,39 @@
+name: Build and Publish Conda Package
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up pixi
+        uses: prefix-dev/setup-pixi@v0.8.1
+        with:
+          pixi-version: v0.60.0
+
+      - name: Install rattler-build
+        run: |
+          pixi global install rattler-build
+
+      - name: Build conda package
+        run: |
+          rattler-build build --recipe recipe.yaml \
+            --output-dir dist/ \
+            --channel https://repo.prefix.dev/ecoscope-workflows/ \
+            --channel conda-forge
+
+      - name: Upload to prefix.dev
+        env:
+          PREFIX_DEV_TOKEN: ${{ secrets.PREFIX_DEV_TOKEN }}
+        run: |
+          rattler-build upload prefix \
+            --channel ecoscope-workflows-gcf \
+            dist/noarch/*.conda
