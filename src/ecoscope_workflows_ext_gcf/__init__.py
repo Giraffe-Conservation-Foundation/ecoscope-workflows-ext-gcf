@@ -174,3 +174,48 @@ def flatten_gcf_repeat_groups(
         )
 
     return df
+
+
+@register()
+def dissolve_patrol_trajectories(
+    df: Annotated[
+        AnyGeoDataFrame,
+        Field(
+            description=(
+                "Patrol trajectory GeoDataFrame with one row per segment "
+                "(output of relocations_to_trajectory). Segments are dissolved "
+                "into one MultiLineString per patrol, with distances and "
+                "durations summed and timestamps min/maxed."
+            ),
+            exclude=True,
+        ),
+    ],
+) -> Annotated[AnyGeoDataFrame, Field()]:
+    """
+    Dissolve per-segment trajectory rows into one MultiLineString per patrol.
+
+    Groups by patrol_serial_number. Numeric patrol-level columns are
+    aggregated (dist_meters and timespan_seconds summed; segment_start
+    minimised; segment_end maximised). All other columns take the first value.
+    """
+    by = "patrol_serial_number"
+
+    _sum_cols = {"timespan_seconds", "dist_meters"}
+    _min_cols = {"segment_start"}
+    _max_cols = {"segment_end"}
+
+    aggfunc = {}
+    for col in df.columns:
+        if col in (by, "geometry"):
+            continue
+        elif col in _sum_cols:
+            aggfunc[col] = "sum"
+        elif col in _min_cols:
+            aggfunc[col] = "min"
+        elif col in _max_cols:
+            aggfunc[col] = "max"
+        else:
+            aggfunc[col] = "first"
+
+    dissolved = df.dissolve(by=by, aggfunc=aggfunc).reset_index()
+    return gpd.GeoDataFrame(dissolved, geometry="geometry", crs=df.crs)
