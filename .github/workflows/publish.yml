@@ -29,7 +29,20 @@ jobs:
 
       - name: Upload to prefix.dev
         run: |
-          rattler-build upload prefix \
+          ls -la dist/noarch/
+          rattler-build --version
+          rattler-build -v upload prefix \
             --channel ecoscope-workflows-gcf \
             --api-key ${{ secrets.PREFIX_DEV_TOKEN }} \
             dist/noarch/*.conda
+
+      - name: Check the package is on the channel
+        run: |
+          VERSION=$(grep -m1 '^version' pyproject.toml | cut -d'"' -f2)
+          for i in 1 2 3 4 5 6; do
+            if curl -fsS "https://repo.prefix.dev/ecoscope-workflows-gcf/noarch/repodata.json?t=$(date +%s)" | grep -q "ecoscope-workflows-ext-gcf-${VERSION}-"; then
+              echo "ecoscope-workflows-ext-gcf ${VERSION} is on the channel"; exit 0
+            fi
+            sleep 20
+          done
+          echo "::error::ecoscope-workflows-ext-gcf ${VERSION} did not appear on the ecoscope-workflows-gcf channel"; exit 1
