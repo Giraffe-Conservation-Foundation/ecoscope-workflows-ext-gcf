@@ -49,6 +49,22 @@ flattened sub-fields.
 See `src/ecoscope_workflows_ext_gcf/__init__.py` for full implementation
 notes.
 
+### `gcf_event_upload` (v0.2.0)
+
+Bulk-create EarthRanger events of any event type (v1 or v2) from a CSV — the
+Ecoscope Desktop version of the TwigaTools Event Upload page. Used by
+[gcf-event-upload](https://github.com/Giraffe-Conservation-Foundation/gcf-event-upload).
+One task with an `action` input:
+
+- **Make template** — writes `<event_type>_template.csv` and `<event_type>_field_guide.csv`
+  (field types, required fields, allowed dropdown values incl. v2 choice lists).
+- **Check file only** (default) — checks every row of `csv_path`, writes `<event_type>_problems.csv`; sends nothing.
+- **Check and import** — checks, creates the passing rows, writes `<event_type>_import_results.csv`.
+
+Returns a Markdown summary for a text widget. Row rules live in
+`_event_upload_rules.py`, copied from TwigaTools `modules/event_upload/schema.py` —
+keep the two in step.
+
 ## Versioning
 
 Tag a release (`git tag v0.1.0 && git push --tags`) any time the task
