@@ -33,7 +33,7 @@ USAGE IN spec.yaml
     requirements:
       - name: ecoscope-workflows-ext-gcf
         version: "0.1.1"
-        channel: https://repo.prefix.dev/gcf-ecoscope/
+        channel: https://repo.prefix.dev/ecoscope-workflows-gcf/
 
     workflow:
       - name: Flatten GCF Repeat Groups

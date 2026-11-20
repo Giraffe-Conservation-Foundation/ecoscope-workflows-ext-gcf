@@ -30,7 +30,7 @@ jobs:
       - name: Upload to prefix.dev
         run: |
           rattler-build upload prefix \
-            --channel gcf-ecoscope \
+            --channel ecoscope-workflows-gcf \
             --skip-existing \
             --api-key ${{ secrets.PREFIX_DEV_TOKEN }} \
             dist/noarch/*.conda
