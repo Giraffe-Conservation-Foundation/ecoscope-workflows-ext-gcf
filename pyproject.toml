@@ -1,10 +1,10 @@
 [project]
 name = "ecoscope-workflows-ext-gcf"
-version = "0.2.2"
+version = "0.3.0"
 description = "GCF-specific custom tasks for Ecoscope Desktop workflows."
 requires-python = ">=3.10"
 dependencies = [
-    "wt-registry>=0.2.0,<0.3.0",
+    "wt-registry>=0.3.0,<0.4.0",
     "geopandas",
     "pandas",
     "pydantic",
