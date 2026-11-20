@@ -49,7 +49,7 @@ flattened sub-fields.
 See `src/ecoscope_workflows_ext_gcf/__init__.py` for full implementation
 notes.
 
-### `gcf_event_upload` (v0.2.0)
+### `gcf_event_upload` (v0.2.1)
 
 Bulk-create EarthRanger events of any event type (v1 or v2) from a CSV — the
 Ecoscope Desktop version of the TwigaTools Event Upload page. Used by

@@ -221,9 +221,10 @@ def dissolve_patrol_trajectories(
     return gpd.GeoDataFrame(dissolved, geometry="geometry", crs=df.crs)
 
 
-# Event Upload (v0.2.0): template / check / import for any EarthRanger event type.
-# Imported here so @register() runs when wt_registry loads this package.
+# Event Upload (v0.2.1): template / check / import for any EarthRanger event type.
+# Registered here (top-level name) so wt_registry finds it when wt_registry loads this package.
 from .event_upload import gcf_event_upload as _gcf_event_upload  # noqa: E402
 
 _gcf_event_upload.__module__ = __name__
-gcf_event_upload = register()(_gcf_event_upload)
+# no-cache: every run must re-read the CSV and really import (side effects).
+gcf_event_upload = register(title="GCF Event Upload", tags=["io", "no-cache"])(_gcf_event_upload)
